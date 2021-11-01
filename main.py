@@ -1,3 +1,4 @@
+from os import environ
 from flask import Flask, jsonify, request
 from db_manager import get_items_from_date_range
 from tagger import get_json_tags_from_date_range
@@ -57,4 +58,4 @@ def ml():
         }
 if __name__ == '__main__':
     # app.run(debug=True)
-    app.run(port=8080)
+    app.run(port=environ.get('PORT'))
