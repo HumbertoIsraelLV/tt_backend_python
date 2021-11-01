@@ -5,6 +5,12 @@ from ml import train_model, save_model, load_model, extract_model_forecast_data,
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def home():
+    return {
+        "message":"Hello!"
+    }
+
 @app.route('/ML', methods=['POST'])
 def ml():
     #VALUES FOR ARGUMENTS ARE SET
@@ -51,4 +57,4 @@ def ml():
         }
 if __name__ == '__main__':
     # app.run(debug=True)
-    app.run(port=5000)
+    app.run(port=8080)
