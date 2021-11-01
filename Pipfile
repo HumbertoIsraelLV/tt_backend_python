@@ -16,6 +16,7 @@ python-dateutil = "*"
 numpy = "*"
 scikit-learn = "*"
 dnspython = "*"
+gunicorn = "*"
 
 [dev-packages]
 
