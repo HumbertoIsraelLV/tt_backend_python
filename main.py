@@ -35,7 +35,7 @@ def ml():
     if(forecast_or_train=="train"):
         json_tags=get_json_tags_from_date_range(collection_name, start_date, end_date)
         model = train_model(json_tags)
-        save_model(model, "model.bit")
+        save_model(model, f"./models/{collection_name}.bit")
         return {
             "collection_name":   collection_name,
             "start_date":   start_date,
@@ -44,7 +44,7 @@ def ml():
         }
     else:
         candles=get_items_from_date_range(collection_name, start_date, end_date)
-        model = load_model("model.bit")
+        model = load_model(f"./models/{collection_name}.bit")
         # x_train, x_test, y_train, y_test = extract_model_data(candles)
         #Generar prediccion (valores resultantes ichimoku)
         data=extract_model_forecast_data(candles)
