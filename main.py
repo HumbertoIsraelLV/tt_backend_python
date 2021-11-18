@@ -53,7 +53,8 @@ def ml():
             "collection_name":   collection_name,
             "start_date":   start_date,
             "end_date":   end_date,
-            "prediction":prediction
+            "prediction":prediction,
+            "candles":candles[51:]
         }
 if __name__ == '__main__':
     # app.run(debug=True)
