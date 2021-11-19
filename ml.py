@@ -10,7 +10,7 @@ from pickle import dump, load
 ##  pip install numpy
 ##  pip install -U scikit-learn
 
-def extract_row_prices(json_row, max = 10000):
+def extract_row_prices(json_row, max = 66000):
     data = []
     counter = 0
     for price in json_row["candles"]:
@@ -23,7 +23,7 @@ def extract_row_prices(json_row, max = 10000):
             break
     return np.array(data)
 
-def extract_forecast_prices(json_row, max = 10000):
+def extract_forecast_prices(json_row, max = 66000):
     data = []
     counter = 0
     for price in json_row:
@@ -53,8 +53,8 @@ def extract_model_data(js):
     data = extract_data(js)
     pca_x = data[:,:-1]
     y = data[:, -1].astype("str")
-    print(pca_x.shape)
-    print(pca_x.shape)
+    # print(pca_x.shape)
+    # print(pca_x.shape)
     return train_test_split(pca_x, y, test_size=0.2)
 
 def get_model_metrics(model, x_test, y_test):
@@ -70,8 +70,8 @@ def train_model(js):
     model = SVC(C=3, kernel="linear", tol=0.001, decision_function_shape="ovr", gamma="auto")
     model.fit(x_train, y_train)
     accuracy, matrix = get_model_metrics(model, x_test, y_test)
-    print(accuracy)
-    print(matrix)
+    # print(accuracy)
+    # print(matrix)
     return model
 
 def save_model(model, path):
@@ -92,10 +92,10 @@ def make_prediction(model, x_data):
     predictions = []
     start = 0
     end = 208
-    print(len(x_data))
+    # print(len(x_data))
     while end <= len(x_data):
         x = x_data[start:end].reshape(1, -1)
-        print(start, end, x.shape)
+        # print(start, end, x.shape)
         prediction = model.predict(x)
         predictions.append(prediction[0])
         start += 4
@@ -116,8 +116,9 @@ if __name__ == "__main__":
     model = load_model("model.bit")
     #x_train, x_test, y_train, y_test = extract_model_data(js)
     x_test= extract_model_forecast_data(js)
-    print(x_test.shape)
 
     #Generar prediccion (valores resultantes ichimoku)
     predictions = make_prediction(model, x_test)
-    print(predictions, len(predictions))
+    # print(x_test.shape)
+    # print(predictions, len(predictions))
+    print(len(predictions))
