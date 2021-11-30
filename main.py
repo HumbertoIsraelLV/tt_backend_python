@@ -37,16 +37,15 @@ def ml():
         model = train_model(json_tags)
         save_model(model, f"./models/{collection_name}.bit")
         return {
+            "type": "personalizado",
             "collection_name":   collection_name,
             "start_date":   start_date,
             "end_date":   end_date,
             "trained": "ok"
         }
-    else:
+    elif(forecast_or_train=="forecast"):
         candles=get_items_from_date_range(collection_name, start_date, end_date)
         model = load_model(f"./models/{collection_name}.bit")
-        # x_train, x_test, y_train, y_test = extract_model_data(candles)
-        #Generar prediccion (valores resultantes ichimoku)
         data=extract_model_forecast_data(candles)
         prediction = make_prediction(model, data)
         return {
@@ -55,6 +54,19 @@ def ml():
             "end_date":   end_date,
             "prediction":prediction,
             "candles":candles[51:]
+        }
+    else:
+        start_date="2020-01-01T00:00:00.000Z"
+        end_date="2022-01-01T00:00:00.000Z"
+        json_tags=get_json_tags_from_date_range(collection_name, start_date, end_date)
+        model = train_model(json_tags)
+        save_model(model, f"./models/{collection_name}.bit")
+        return {
+            "type": "default",
+            "collection_name":   collection_name,
+            "start_date":   start_date,
+            "end_date":   end_date,
+            "trained": "ok"
         }
 if __name__ == '__main__':
     # app.run(debug=True)
