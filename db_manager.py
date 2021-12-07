@@ -12,11 +12,11 @@ def get_items_from_date_range(collection_name, start_date, end_date):
     collection_name = dbname[collection_name]
     start_date=parse(start_date)
     end_date=parse(end_date)
-    response = collection_name.find({'_id': {"$gte":start_date, "$lte":end_date}})
+    response = collection_name.find({'_id': {"$gte":start_date, "$lte":end_date}}).sort("_id", -1).limit(10000)
     items_list=[]
     for i in response:
         items_list.append(i)
-    return items_list
+    return items_list[::-1]
 
 # --------------------------------------------------
 # TESTS:

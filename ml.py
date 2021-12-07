@@ -10,7 +10,8 @@ from pickle import dump, load
 ##  pip install numpy
 ##  pip install -U scikit-learn
 
-def extract_row_prices(json_row, max = 66000):
+# def extract_row_prices(json_row, max = 66000):
+def extract_row_prices(json_row, max = 10000):
     data = []
     counter = 0
     for price in json_row["candles"]:
@@ -23,7 +24,8 @@ def extract_row_prices(json_row, max = 66000):
             break
     return np.array(data)
 
-def extract_forecast_prices(json_row, max = 66000):
+# def extract_forecast_prices(json_row, max = 66000):
+def extract_forecast_prices(json_row, max = 10000):
     data = []
     counter = 0
     for price in json_row:
@@ -37,7 +39,7 @@ def extract_forecast_prices(json_row, max = 66000):
     return np.array(data)
 
 def extract_model_forecast_data(js):
-    print("extracting data")
+    # print("extracting data")
     data = extract_forecast_prices(js)
     return data
 
@@ -49,7 +51,7 @@ def extract_data(json_data):
     return np.array(data)
 
 def extract_model_data(js):
-    print("extracting data")
+    # print("extracting data")
     data = extract_data(js)
     pca_x = data[:,:-1]
     y = data[:, -1].astype("str")
@@ -58,14 +60,14 @@ def extract_model_data(js):
     return train_test_split(pca_x, y, test_size=0.2)
 
 def get_model_metrics(model, x_test, y_test):
-    print("generating model metrics")
+    # print("generating model metrics")
     prediction = model.predict(x_test)
     accuracy = accuracy_score(y_test, prediction)
     matrix = confusion_matrix(y_test, prediction)
     return accuracy, matrix
 
 def train_model(js):
-    print("training model")
+    # print("training model")
     x_train, x_test, y_train, y_test = extract_model_data(js)
     model = SVC(C=3, kernel="linear", tol=0.001, decision_function_shape="ovr", gamma="auto")
     model.fit(x_train, y_train)
@@ -75,20 +77,20 @@ def train_model(js):
     return model
 
 def save_model(model, path):
-    print("saving model into:", path)
+    # print("saving model into:", path)
     fmodel = open(path, "wb")
     dump(model, fmodel)
     fmodel.close()
 
 def load_model(path):
-    print("loading model from:", path)
+    # print("loading model from:", path)
     fmodel = open(path, "rb")
     model = load(fmodel)
     fmodel.close()
     return model
 
 def make_prediction(model, x_data):
-    print("making prediction")
+    # print("making prediction")
     predictions = []
     start = 0
     end = 208
@@ -121,4 +123,4 @@ if __name__ == "__main__":
     predictions = make_prediction(model, x_test)
     # print(x_test.shape)
     # print(predictions, len(predictions))
-    print(len(predictions))
+    # print(len(predictions))
